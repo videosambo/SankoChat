@@ -28,6 +28,9 @@ permissions:
   sankochat.bypass.caps:
     description: Allows you to bypass caps check
     default: op
+  sankochat.command.reload:
+    description: Admin command for reload command
+    default: op
   sankochat.*:
     description: Admin permissions
     default: op
@@ -37,3 +40,4 @@ permissions:
      sankochat.bypass.repeat: true
      sankochat.bypass.similar: true
      sankochat.bypass.filter: true
+     sankochat.command.reload: true
