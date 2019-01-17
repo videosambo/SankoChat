@@ -136,11 +136,19 @@ public class ChatListener implements Listener {
 	}
 
 	public static boolean testUpperCase(String message) {
+		if (message.length() < 4) {
+			return false;
+		}
 		for (int i = 0; i < message.length(); i++) {
 			char c = message.charAt(i);
+			while (!Character.isLetter(c)) {
+				i++;
+				c = message.charAt(i);
+			}
 			if (c >= 97 && c <= 122) {
 				return false;
 			}
+
 		}
 		return true;
 	}
