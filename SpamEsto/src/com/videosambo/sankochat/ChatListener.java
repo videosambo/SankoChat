@@ -111,8 +111,7 @@ public class ChatListener implements Listener {
 					}
 					return;
 				}
-			} else
-				player.sendMessage(noPermMessage);
+			}
 		}
 
 		if (plugin.getConfig().getBoolean("stop-message-similaries")) {

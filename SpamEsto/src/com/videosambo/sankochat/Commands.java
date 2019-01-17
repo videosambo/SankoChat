@@ -23,7 +23,10 @@ public class Commands implements CommandExecutor {
 					plugin.saveConfig();
 					sender.sendMessage(messages.getMessage("reload-message"));
 					return true;
-				} else sender.sendMessage(messages.getMessage("no-permission"));
+				} else {
+					sender.sendMessage(messages.getMessage("no-permission"));
+					return true;
+				}
 			}
 		} else {
 			plugin.reloadConfig();
