@@ -5,7 +5,6 @@
 #     S A  A  N  N  K K  K  K    C    H H  A  A    T   #
 # SSSSS A  A  N  N  K K   KK      CC  H H  A  A    T   #
 ########################################################
-
 #Settings ==============================
 #If you want to use cooldown, set value to true
 use-cooldown-time: true
@@ -26,14 +25,47 @@ stop-message-similaries: true
 similiar-message-precent: '0.80'
 #If you dont want people to spam caps, set value to true
 stop-caps: true
-#If you have other plugins that may bypass sankochat, ypu can send null message that clears the message so 
-# plugin that bypasses sankochat will not recive message (WARNING: MAY CAUSE ERRORS)
-resend-null-message: true
+#If you have other plugins that may bypass sankochat, you can send null message that clears the message so 
+# plugin that bypasses sankochat will not recive message (WARNING: MAY CAUSE ERRORS FOR OTHER PLUGINS)
+resend-null-message: false
 #What message you want to resend. resend-null-message must be false. Use {0} as message itself
 resend-message: "{0}"
 #If you want to use prefix, set value to true and change prefix value to your own
 use-prefix: false
 prefix: "&7[&a&lMy&b&lPrefix&7] &r"
+
+#Warning system ==============================
+#If you dont want to use punishment system, you can togle it
+use-warning-system: false
+#How many warnings player must have before punishment
+warning-cap: 4
+#Punishment command ex. "kick {0} {1}". Dont use slash char
+#{0} stands for player and {1} stands for message
+punishment-command: "kick {0} {1}"
+#Punishment message
+#{0} stands for warning count
+punishent-message: "&cYou have kicked for reaching {0} warnings!"
+#Warning recived message
+#{0} is warning reason, {1} is current warning count and {2} is warning cap
+warning-recived: "&cYou have been warned for {0}. You have {1}/{2} left."
+#If you want to use custom warning system that is connected to ex. litebans. You can use it (This togles off SankoChat own punishmet system)
+use-own-warning-system: false
+#Command that executes when player should get warning ex. "warn {0} {1}". Dont use slash char
+#{0} stands for player and {1} stands for message, this uses punishment-message (You can use your own message if you want)
+warning-command: "warn {0} {1}"
+#Here is list for when people shoud get warned
+warn-blocked-words: true
+warn-repeat: true
+warn-similar: true
+warn-caps: false
+warn-filter: true
+#Here reasons for warnings
+reason-blocked-words: "Swearing"
+reason-repeat: "Repeat"
+reason-similar: "Repeat"
+reason-caps: "caps"
+reason-filter: "URL or IP"
+
 #Messages ==============================
 cooldown-message: "&cDont send messages too fast. You have {0} seconds left"
 message-repeat: "&cDont repeat yourself!"
@@ -41,7 +73,8 @@ similiar-message: "&cDont send too similiar message!"
 blocked-word-message: "&cYou are not allowed to swear!"
 caps-message: "&cDONT USE CAPS"
 filter-message: "&cYou dont have permission to send messages that contains url, ips or domain names!"
-reload-message: "&aConfig file has been reloaded"
+reload-message: "&aConfig file has been reloaded."
+datareset-message: "&cAll warnings and checks has been reseted."
 no-permission: "&cYou dont have permission to execute that command!"
 
 #Lists ==============================
@@ -51,5 +84,7 @@ blocked-words:
 #List of allowed website urls. link-filter must be true
 allowed-urls:
    - 'https://www.spigotmc.org'
+   - 'minecraft.net'
+   - '192.168.0.100'
    
 #Made by videosambo

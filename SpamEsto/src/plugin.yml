@@ -1,5 +1,5 @@
 main: com.videosambo.sankochat.Main
-version: 1.0
+version: 1.1
 name: SankoChat
 author: videosambo
 description: Tool for clean chat
@@ -7,7 +7,7 @@ description: Tool for clean chat
 commands:
   sankochat:
     description: Reload config file of sankochat
-    usage: /sankochat reload
+    usage: /sankochat
 
 permissions:
   sankochat.bypass.blockedwords:
@@ -31,6 +31,9 @@ permissions:
   sankochat.command.reload:
     description: Admin command for reload command
     default: op
+  sankochat.command.resetdata:
+    description: Admin command for reseting warnings
+    default: op
   sankochat.*:
     description: Admin permissions
     default: op
@@ -41,3 +44,4 @@ permissions:
      sankochat.bypass.similar: true
      sankochat.bypass.filter: true
      sankochat.command.reload: true
+     sankochat.command.resetdata: true
