@@ -1,25 +1,26 @@
 package com.videosambo.sankochat;
 
+import org.bukkit.ChatColor;
+
 /**
  * @author videosambo
- * 
- * onnikontiokorpi@gmail.com
+ *
+ *         onnikontiokorpi@gmail.com
  **/
 public class Messages {
+	private final Main pl;
 
-	Main plugin = Main.getPlugin(Main.class);
+	public Messages(Main pl) {
+		this.pl = pl;
+	}
 
 	public String getMessage(String message) {
+		String langMessage = pl.getConfig().getString(message);
 
-		String langMessage = plugin.getConfig().getString(message);
+		if (pl.getConfig().getBoolean("use-prefix"))
+			langMessage = pl.getConfig().getString("prefix") + langMessage;
 
-		if (plugin.getConfig().getBoolean("use-prefix")) {
-			langMessage = plugin.getConfig().getString("prefix").toString() + langMessage;
-		}
-
-		langMessage = langMessage.replace("&", "§");
-
-		return langMessage;
+		return ChatColor.translateAlternateColorCodes('&', langMessage);
 	}
 
 }

@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 public class CommandHandler implements CommandExecutor {
 
 	private final Main pl;
+	private final Messages messages;
 
 	public CommandHandler(Main pl) {
 		this.pl = pl;
+		this.messages = pl.getMessages();
 	}
-
-	Messages messages = new Messages();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -30,7 +30,7 @@ public class CommandHandler implements CommandExecutor {
 			sender.sendMessage("SankoChat has been reloaded");
 		} else if (args[0].equalsIgnoreCase("resetdata")) {
 			pl.getChatListener().clearMessages();
-			pl.getChatListener().getWarningSystem().clearAllWarnings();
+			pl.getWarningSystem().clearAllWarnings();
 			sender.sendMessage("all warnings and check has been reseted");
 		}
 
@@ -51,7 +51,7 @@ public class CommandHandler implements CommandExecutor {
 					return true;
 				}
 				pl.getChatListener().clearMessages();
-				pl.getChatListener().getWarningSystem().clearAllWarnings();
+				pl.getWarningSystem().clearAllWarnings();
 				sender.sendMessage(messages.getMessage("datareset-message"));
 			}
 			return true;

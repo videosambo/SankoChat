@@ -19,16 +19,14 @@ public class ChatListener implements Listener {
 	private final Main pl;
 	private final Messages messages;
 	private final Matcher matcher;
-	private final WarningSystem warningSystem;
 
 	private final HashMap<UUID, String> messagesMap = new HashMap<>();
 	private final HashMap<UUID, Long> cooldownMap = new HashMap<>();
 
 	public ChatListener(Main pl) {
 		this.pl = pl;
-		this.messages = new Messages();
+		this.messages = pl.getMessages();
 		this.matcher = new Matcher();
-		this.warningSystem = new WarningSystem();
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -48,10 +46,10 @@ public class ChatListener implements Listener {
 						if (pl.getConfig().getBoolean("use-warning-system")) {
 							if (pl.getConfig().getBoolean("warn-blocked-words")) {
 								if (pl.getConfig().getBoolean("use-own-warning-system")) {
-									warningSystem.runOwnWarningCommand(playerID);
+									pl.getWarningSystem().runOwnWarningCommand(playerID);
 								} else {
 									String from = messages.getMessage("reason-blocked-words");
-									warningSystem.addWarning(playerID, from);
+									pl.getWarningSystem().addWarning(playerID, from);
 								}
 							}
 						}
@@ -77,10 +75,10 @@ public class ChatListener implements Listener {
 					if (pl.getConfig().getBoolean("use-warning-system")) {
 						if (pl.getConfig().getBoolean("warn-filter")) {
 							if (pl.getConfig().getBoolean("use-own-warning-system")) {
-								warningSystem.runOwnWarningCommand(playerID);
+								pl.getWarningSystem().runOwnWarningCommand(playerID);
 							} else {
 								String from = messages.getMessage("reason-filter");
-								warningSystem.addWarning(playerID, from);
+								pl.getWarningSystem().addWarning(playerID, from);
 							}
 						}
 					}
@@ -153,10 +151,10 @@ public class ChatListener implements Listener {
 					if (pl.getConfig().getBoolean("use-warning-system")) {
 						if (pl.getConfig().getBoolean("warn-repeat")) {
 							if (pl.getConfig().getBoolean("use-own-warning-system")) {
-								warningSystem.runOwnWarningCommand(playerID);
+								pl.getWarningSystem().runOwnWarningCommand(playerID);
 							} else {
 								String from = messages.getMessage("reason-repeat");
-								warningSystem.addWarning(playerID, from);
+								pl.getWarningSystem().addWarning(playerID, from);
 							}
 						}
 					}
@@ -183,10 +181,10 @@ public class ChatListener implements Listener {
 					if (pl.getConfig().getBoolean("use-warning-system")) {
 						if (pl.getConfig().getBoolean("warn-similar")) {
 							if (pl.getConfig().getBoolean("use-own-warning-system")) {
-								warningSystem.runOwnWarningCommand(playerID);
+								pl.getWarningSystem().runOwnWarningCommand(playerID);
 							} else {
 								String from = messages.getMessage("reason-similar");
-								warningSystem.addWarning(playerID, from);
+								pl.getWarningSystem().addWarning(playerID, from);
 							}
 						}
 					}
@@ -209,9 +207,9 @@ public class ChatListener implements Listener {
 
 	private void warn(UUID playerID, String reason) {
 		if (pl.getConfig().getBoolean("use-own-warning-system")) {
-			warningSystem.runOwnWarningCommand(playerID);
+			pl.getWarningSystem().runOwnWarningCommand(playerID);
 		} else {
-			warningSystem.addWarning(playerID, reason);
+			pl.getWarningSystem().addWarning(playerID, reason);
 		}
 	}
 
@@ -242,7 +240,9 @@ public class ChatListener implements Listener {
 		int lastMessageLenght = lastMessage.length();
 
 		String shorterMessage, longerMessage;
-		int shorterMessageLenght, longerMessageLenght, messageChars = 0;
+		int shorterMessageLenght;
+		// int longerMessageLenght
+		int messageChars = 0;
 
 		if (messageLenght < lastMessageLenght) {
 			shorterMessage = message;
@@ -253,7 +253,7 @@ public class ChatListener implements Listener {
 		}
 
 		shorterMessageLenght = shorterMessage.length();
-		longerMessageLenght = longerMessage.length();
+		// longerMessageLenght = longerMessage.length();
 
 		for (int i = 0; i < shorterMessage.length(); i++) {
 			if (shorterMessage.charAt(i) == longerMessage.charAt(i)) {
@@ -281,9 +281,4 @@ public class ChatListener implements Listener {
 	public void addMessage(UUID playerID, String message) {
 		messagesMap.put(playerID, message);
 	}
-
-	public WarningSystem getWarningSystem() {
-		return warningSystem;
-	}
-
 }

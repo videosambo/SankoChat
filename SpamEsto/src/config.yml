@@ -45,9 +45,9 @@ punishment-command: "kick {0} {1}"
 #Punishment message
 #{0} stands for warning count
 punishent-message: "&cYou have kicked for reaching {0} warnings!"
-#Warning recived message
+#Warning received message
 #{0} is warning reason, {1} is current warning count and {2} is warning cap
-warning-recived: "&cYou have been warned for {0}. You have {1}/{2} left."
+warning-received: "&cYou have been warned for {0}. You have {1}/{2} left."
 #If you want to use custom warning system that is connected to ex. litebans. You can use it (This togles off SankoChat own punishmet system)
 use-own-warning-system: false
 #Command that executes when player should get warning ex. "warn {0} {1}". Dont use slash char
