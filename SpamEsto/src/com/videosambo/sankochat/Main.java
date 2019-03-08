@@ -4,22 +4,32 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author videosambo
- * 
+ *
  *         onnikontiokorpi@gmail.com
  **/
 public class Main extends JavaPlugin {
+	private final ChatListener chatListener;
+	private final CommandHandler ch;
+
+	public Main() {
+		this.chatListener = new ChatListener(this);
+		this.ch = new CommandHandler(this);
+	}
 
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
-		getCommand("sankochat").setExecutor(new Commands());
-		getServer().getPluginManager().registerEvents(new ChatListener(), this);
+
+		getCommand("sankochat").setExecutor(ch);
+		getServer().getPluginManager().registerEvents(chatListener, this);
 	}
 
+	@Override
 	public void onDisable() {
-		ChatListener cl = new ChatListener();
-		cl.clearMessages();
+		chatListener.clearMessages();
 	}
-	
 
+	public ChatListener getChatListener() {
+		return chatListener;
+	}
 }
