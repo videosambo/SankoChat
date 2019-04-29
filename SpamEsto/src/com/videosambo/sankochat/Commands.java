@@ -27,20 +27,20 @@ public class Commands implements CommandExecutor {
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 				if (player.hasPermission("sankochat.command.reload")) {
 					plugin.reloadConfig();
-					sender.sendMessage(messages.getMessage("reload-message"));
+					sender.sendMessage(messages.getMessage("reload-message", true));
 					return false;
 				} else {
-					sender.sendMessage(messages.getMessage("no-permission"));
+					sender.sendMessage(messages.getMessage("no-permission", true));
 					return false;
 				}
 			} else if (args.length == 1 && args[0].equalsIgnoreCase("resetdata")) {
 				if (player.hasPermission("sankochat.command.resetdata")) {
 					cl.clearMessages();
 					warning.clearAllWarnings();
-					sender.sendMessage(messages.getMessage("datareset-message"));
+					sender.sendMessage(messages.getMessage("datareset-message", true));
 					return false;
 				} else {
-					sender.sendMessage(messages.getMessage("no-permission"));
+					sender.sendMessage(messages.getMessage("no-permission", true));
 					return false;
 				}
 			}

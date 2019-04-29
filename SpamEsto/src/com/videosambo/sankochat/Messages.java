@@ -9,12 +9,13 @@ public class Messages {
 
 	Main plugin = Main.getPlugin(Main.class);
 
-	public String getMessage(String message) {
+	public String getMessage(String message, boolean usePrefix) {
 
 		String langMessage = plugin.getConfig().getString(message);
 
 		if (plugin.getConfig().getBoolean("use-prefix")) {
-			langMessage = plugin.getConfig().getString("prefix").toString() + langMessage;
+			if (usePrefix)
+				langMessage = plugin.getConfig().getString("prefix").toString() + langMessage;
 		}
 
 		langMessage = langMessage.replace("&", "§");

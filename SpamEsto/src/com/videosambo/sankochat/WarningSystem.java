@@ -2,11 +2,21 @@ package com.videosambo.sankochat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author videosambo
@@ -16,7 +26,6 @@ import org.bukkit.entity.Player;
 public class WarningSystem {
 
 	Main plugin = Main.getPlugin(Main.class);
-	ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 	Messages messages = new Messages();
 	Player player;
 
@@ -37,32 +46,38 @@ public class WarningSystem {
 		if (warnings.containsKey(playerID)) {
 			warnings.put(playerID, getWarningCount(playerID) + 1);
 		} else {
-			warnings.put(playerID, 0);
+			warnings.put(playerID, 1);
 		}
 		String warningMessage = plugin.getConfig().getString("warning-recived");
-		getPlayer(playerID).sendMessage(messages.getMessage("warning-recived").replace("{0}", from)
+		getPlayer(playerID).sendMessage(messages.getMessage("warning-recived", true).replace("{0}", from)
 				.replace("{1}", Integer.toString(getWarningCount(playerID)))
 				.replace("{2}", Integer.toString(warningCap)));
 		runPunishment(playerID);
 	}
 
 	public void runPunishment(UUID playerID) {
-		if (getWarningCount(playerID) == warningCap) {
-			String reason = messages.getMessage("punishent-message").replace("{0}", Integer.toString(warningCap));
+		if (getWarningCount(playerID) >= warningCap) {
+			String reason = plugin.getConfig().getString("punishent-message").replace("{0}",
+					Integer.toString(warningCap));
 			String command = plugin.getConfig().getString("punishment-command").replace("{0}", getPlayerName(playerID))
 					.replace("{1}", reason);
-			Bukkit.dispatchCommand(console, command);
-			Bukkit.getConsoleSender().sendMessage("Command: " + command + "   Reason: " + reason);
+			plugin.runCommand(command);
 			clearWarnings(playerID);
 		}
 	}
 
 	public void runOwnWarningCommand(UUID playerID) {
 		String playerName = getPlayerName(playerID);
-		String reason = messages.getMessage("punishent-message").replace("{0}", Integer.toString(warningCap));
+		String reason = messages.getMessage("punishent-message", false).replace("{0}", Integer.toString(warningCap));
 		String command = plugin.getConfig().getString("warning-command").replace("{0}", playerName).replace("{1}",
 				reason);
-		Bukkit.dispatchCommand(plugin.getServer().getConsoleSender(), command);
+		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+		
+		Bukkit.getScheduler().runTask(plugin, new Runnable() {
+			public void run() {
+				Bukkit.dispatchCommand(console, command);
+			}
+		});
 	}
 
 	private void clearWarnings(UUID playerID) {

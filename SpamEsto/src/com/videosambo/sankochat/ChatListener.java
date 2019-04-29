@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author videosambo
@@ -20,20 +23,22 @@ public class ChatListener implements Listener {
 	Main plugin = Main.getPlugin(Main.class);
 	Messages messages = new Messages();
 	Matcher matcher = new Matcher();
-	String noPermMessage = messages.getMessage("no-permission");
+	String noPermMessage = messages.getMessage("no-permission", true);
 	WarningSystem warning = new WarningSystem();
 
 	private HashMap<UUID, String> messagesMap = new HashMap<UUID, String>();
-	private HashMap<UUID, Long> cooldown = new HashMap<UUID, Long>();
+	private ArrayList<UUID> cooldown = new ArrayList<UUID>();
+	private HashMap<UUID, Integer> cooldownMap = new HashMap<UUID, Integer>();
 	private int cooldownTime = plugin.getConfig().getInt("cooldown-time");
 	private ArrayList<String> blockedWords = (ArrayList<String>) plugin.getConfig().getStringList("blocked-words");
+	private ArrayList<String> replaceword = (ArrayList<String>) plugin.getConfig().getStringList("replace-word");
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(AsyncPlayerChatEvent e) {
 
 		Player player = (Player) e.getPlayer();
 		UUID playerID = player.getUniqueId();
-
+		
 		
 		//Blocked words
 		if (plugin.getConfig().getBoolean("blocked-word-detection")) {
@@ -41,14 +46,14 @@ public class ChatListener implements Listener {
 				for (String blockedWord : blockedWords) {
 					if (e.getMessage().toLowerCase().contains(blockedWord.toLowerCase())) {
 						e.setCancelled(true);
-						player.sendMessage(messages.getMessage("blocked-word-message"));
+						player.sendMessage(messages.getMessage("blocked-word-message", true));
 						
 						if (plugin.getConfig().getBoolean("use-warning-system")) {
 							if (plugin.getConfig().getBoolean("warn-blocked-words")) {
 								if (plugin.getConfig().getBoolean("use-own-warning-system")) {
 									warning.runOwnWarningCommand(playerID);
 								} else {
-									String from = messages.getMessage("reason-blocked-words");
+									String from = messages.getMessage("reason-blocked-words", false);
 									warning.addWarning(playerID, from);
 								}
 							}
@@ -57,9 +62,19 @@ public class ChatListener implements Listener {
 						if (plugin.getConfig().getBoolean("resend-null-message")) {
 							e.setMessage(null);
 						} else {
-							e.setMessage(messages.getMessage("resend-message").replace("{0}", e.getMessage()));
+							e.setMessage(messages.getMessage("resend-message", true).replace("{0}", e.getMessage()));
 						}
 					}
+				}
+			}
+		}
+		
+		//Replace word
+		if (plugin.getConfig().getBoolean("use-replace-word")) {
+			if (!player.hasPermission("sankochat.bypass.replaceword")) {
+				for (String s : replaceword) {
+					String[] words = s.split(":");
+					e.setMessage(e.getMessage().replaceAll(words[0], words[1]));
 				}
 			}
 		}
@@ -69,14 +84,14 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.filter")) {
 				if (matcher.isLink(e.getMessage())) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("filter-message"));
+					player.sendMessage(messages.getMessage("filter-message", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-filter")) {
 							if (plugin.getConfig().getBoolean("use-own-warning-system")) {
 								warning.runOwnWarningCommand(playerID);
 							} else {
-								String from = messages.getMessage("reason-filter");
+								String from = messages.getMessage("reason-filter", false);
 								warning.addWarning(playerID, from);
 							}
 						}
@@ -85,7 +100,7 @@ public class ChatListener implements Listener {
 					if (plugin.getConfig().getBoolean("resend-null-message")) {
 						e.setMessage(null);
 					} else {
-						e.setMessage(messages.getMessage("resend-message").replace("{0}", e.getMessage()));
+						e.setMessage(messages.getMessage("resend-message", true).replace("{0}", e.getMessage()));
 					}
 				}
 			}
@@ -96,14 +111,14 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.caps")) {
 				if (testUpperCase(e.getMessage())) {
 					e.setMessage(e.getMessage().toLowerCase());
-					player.sendMessage(messages.getMessage("caps-message"));
+					player.sendMessage(messages.getMessage("caps-message", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-caps")) {
 							if (plugin.getConfig().getBoolean("use-own-warning-system")) {
 								warning.runOwnWarningCommand(playerID);
 							} else {
-								String from = messages.getMessage("reason-caps");
+								String from = messages.getMessage("reason-caps", false);
 								warning.addWarning(playerID, from);
 							}
 						}
@@ -112,27 +127,36 @@ public class ChatListener implements Listener {
 				}
 			}
 		}
-
+		
+		//Cooldown
 		if (plugin.getConfig().getBoolean("use-cooldown-time")) {
 			if (!player.hasPermission("sankochat.bypass.cooldown")) {
-				if (cooldown.containsKey(playerID)) {
-					long secondsLeft = ((cooldown.get(playerID) / 1000) + cooldownTime)
-							- (System.currentTimeMillis() / 1000);
-					if (secondsLeft > 0) {
+				if (cooldown.contains(playerID)) {
 						e.setCancelled(true);
-						player.sendMessage(messages.getMessage("cooldown-message").replace("{0}",
-								Integer.toString((int) secondsLeft)));
+						player.sendMessage(messages.getMessage("cooldown-message", true).replace("{0}",
+								Integer.toString(cooldownMap.get(playerID))));
 						if (plugin.getConfig().getBoolean("resend-null-message")) {
 							e.setMessage(null);
 						} else {
-							e.setMessage(messages.getMessage("resend-message").replace("{0}", e.getMessage()));
+							e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
 						}
 						return;
-					} else if (secondsLeft <= 0) {
-						cooldown.remove(playerID);
-					}
 				} else {
-					cooldown.put(playerID, System.currentTimeMillis());
+					cooldownMap.put(playerID, plugin.getConfig().getInt("cooldown-time"));
+					cooldown.add(playerID);
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							if (cooldownMap.get(playerID) <= 0) {
+								cooldown.remove(playerID);
+								this.cancel();
+								return;
+							}
+							int time = cooldownMap.get(playerID);
+							time--;
+							cooldownMap.put(playerID, time);
+						}
+					}.runTaskTimer(plugin, 0, 20);
 				}
 			}
 		}
@@ -147,14 +171,14 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.repeat")) {
 				if (getMessage(playerID).toLowerCase().equals(e.getMessage().toLowerCase())) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("message-repeat"));
+					player.sendMessage(messages.getMessage("message-repeat", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-repeat")) {
 							if (plugin.getConfig().getBoolean("use-own-warning-system")) {
 								warning.runOwnWarningCommand(playerID);
 							} else {
-								String from = messages.getMessage("reason-repeat");
+								String from = messages.getMessage("reason-repeat", false);
 								warning.addWarning(playerID, from);
 							}
 						}
@@ -163,7 +187,7 @@ public class ChatListener implements Listener {
 					if (plugin.getConfig().getBoolean("resend-null-message")) {
 						e.setMessage(null);
 					} else {
-						e.setMessage(messages.getMessage("resend-message").replace("{0}", e.getMessage()));
+						e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
 					}
 					return;
 				}
@@ -176,14 +200,14 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.similar")) {
 				if (similarity(e.getMessage(), messagesMap.get(playerID)) > similarityPrecent) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("similiar-message"));
+					player.sendMessage(messages.getMessage("similiar-message", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-similar")) {
 							if (plugin.getConfig().getBoolean("use-own-warning-system")) {
 								warning.runOwnWarningCommand(playerID);
 							} else {
-								String from = messages.getMessage("reason-similar");
+								String from = messages.getMessage("reason-similar", false);
 								warning.addWarning(playerID, from);
 							}
 						}
@@ -192,7 +216,7 @@ public class ChatListener implements Listener {
 					if (plugin.getConfig().getBoolean("resend-null-message")) {
 						e.setMessage(null);
 					} else {
-						e.setMessage(messages.getMessage("resend-message").replace("{0}", e.getMessage()));
+						e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
 					}
 					return;
 				}

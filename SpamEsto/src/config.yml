@@ -17,6 +17,8 @@ filter-ips: true
 filter-dn: true
 #If you want to use blocked-word-list, set value to true
 blocked-word-detection: true
+#Use replace words
+use-replace-word: true
 #If you dont want to have same message spawn
 stop-message-repeat: true
 #If you dont want to have too similar messages
@@ -44,7 +46,8 @@ warning-cap: 4
 punishment-command: "kick {0} {1}"
 #Punishment message
 #{0} stands for warning count
-punishent-message: "&cYou have kicked for reaching {0} warnings!"
+#does not work with colors
+punishent-message: "You have kicked for reaching {0} warnings!"
 #Warning recived message
 #{0} is warning reason, {1} is current warning count and {2} is warning cap
 warning-recived: "&cYou have been warned for {0}. You have {1}/{2} left."
@@ -81,10 +84,14 @@ no-permission: "&cYou dont have permission to execute that command!"
 blocked-words:
    - 'exsample_word'
 
-#List of allowed website urls. link-filter must be true
+#List of allowed website urls, ips or domain names. link-filter must be true
 allowed-urls:
    - 'https://www.spigotmc.org'
    - 'minecraft.net'
    - '192.168.0.100'
    
+#List of replace list. example: - 'blockedword:something else'
+replace-word:
+   - 'example:elpmaxe'
+
 #Made by videosambo

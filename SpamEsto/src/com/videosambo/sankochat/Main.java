@@ -21,5 +21,9 @@ public class Main extends JavaPlugin {
 		cl.clearMessages();
 	}
 	
+	public void runCommand(String command) {
+		getServer().dispatchCommand(getServer().getConsoleSender(), command);
+	}
+	
 
 }
