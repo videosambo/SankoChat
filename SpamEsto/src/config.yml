@@ -36,6 +36,13 @@ resend-message: "{0}"
 use-prefix: false
 prefix: "&7[&a&lMy&b&lPrefix&7] &r"
 
+#Clear system ==============================
+#Use automatic clear system
+clear-message-history: true
+clear-warnings: false
+#Clear timing (in minutes)
+clear-time: 1
+
 #Warning system ==============================
 #If you dont want to use punishment system, you can togle it
 use-warning-system: false
@@ -51,6 +58,11 @@ punishent-message: "You have kicked for reaching {0} warnings!"
 #Warning recived message
 #{0} is warning reason, {1} is current warning count and {2} is warning cap
 warning-recived: "&cYou have been warned for {0}. You have {1}/{2} left."
+#Message that shows for players who has notification permission
+#{0} stands for player, {1} stands for reason, {2} stands for current warning count and {3} stands for maxium warning count
+warned-player: "&ePlayer {0} has been warned for {1}. Warnings: {2}/{3}"
+#Turn this on if you want to broadcast message to console
+show-console-message: false
 #If you want to use custom warning system that is connected to ex. litebans. You can use it (This togles off SankoChat own punishmet system)
 use-own-warning-system: false
 #Command that executes when player should get warning ex. "warn {0} {1}". Dont use slash char
@@ -79,6 +91,7 @@ filter-message: "&cYou dont have permission to send messages that contains url, 
 reload-message: "&aConfig file has been reloaded."
 datareset-message: "&cAll warnings and checks has been reseted."
 no-permission: "&cYou dont have permission to execute that command!"
+clear-time-message: "&aAll warnings and message history has been cleared!"
 
 #Lists ==============================
 blocked-words:

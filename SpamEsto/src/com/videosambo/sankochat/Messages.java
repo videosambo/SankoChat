@@ -7,7 +7,11 @@ package com.videosambo.sankochat;
  **/
 public class Messages {
 
-	Main plugin = Main.getPlugin(Main.class);
+	Main plugin = null;
+
+	public Messages(Main instance) {
+		this.plugin = instance;
+	}
 
 	public String getMessage(String message, boolean usePrefix) {
 

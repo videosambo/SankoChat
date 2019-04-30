@@ -20,18 +20,29 @@ import org.bukkit.scheduler.BukkitRunnable;
  **/
 public class ChatListener implements Listener {
 
-	Main plugin = Main.getPlugin(Main.class);
-	Messages messages = new Messages();
+	Main plugin = null;
+	Messages messages = null;
 	Matcher matcher = new Matcher();
-	String noPermMessage = messages.getMessage("no-permission", true);
-	WarningSystem warning = new WarningSystem();
+	WarningSystem warning = null;
 
+	private String noPermMessage;
 	private HashMap<UUID, String> messagesMap = new HashMap<UUID, String>();
 	private ArrayList<UUID> cooldown = new ArrayList<UUID>();
 	private HashMap<UUID, Integer> cooldownMap = new HashMap<UUID, Integer>();
-	private int cooldownTime = plugin.getConfig().getInt("cooldown-time");
-	private ArrayList<String> blockedWords = (ArrayList<String>) plugin.getConfig().getStringList("blocked-words");
-	private ArrayList<String> replaceword = (ArrayList<String>) plugin.getConfig().getStringList("replace-word");
+	private int cooldownTime;
+	private ArrayList<String> blockedWords;
+	private ArrayList<String> replaceword;
+
+	public ChatListener(Main instance) {
+		this.plugin = instance;
+		messages = new Messages(plugin);
+		warning = new WarningSystem(plugin);
+		
+		noPermMessage = messages.getMessage("no-permission", true);
+		cooldownTime = plugin.getConfig().getInt("cooldown-time");
+		blockedWords = (ArrayList<String>) plugin.getConfig().getStringList("blocked-words");
+		replaceword = (ArrayList<String>) plugin.getConfig().getStringList("replace-word");
+	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(AsyncPlayerChatEvent e) {

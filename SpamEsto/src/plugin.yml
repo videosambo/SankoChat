@@ -1,5 +1,5 @@
 main: com.videosambo.sankochat.Main
-version: 1.2
+version: 1.2.1
 name: SankoChat
 author: videosambo
 description: Tool for clean chat
@@ -28,11 +28,17 @@ permissions:
   sankochat.bypass.caps:
     description: Allows you to bypass caps check
     default: op
+  sankochat.bypass.replaceword:
+    description: Allows you to bypass replace word
+    default: op
   sankochat.command.reload:
     description: Admin command for reload command
     default: op
   sankochat.command.resetdata:
     description: Admin command for reseting warnings
+    default: op
+  sankocaht.command.notifications:
+    description: Notification permission
     default: op
   sankochat.*:
     description: Admin permissions
@@ -43,5 +49,8 @@ permissions:
      sankochat.bypass.repeat: true
      sankochat.bypass.similar: true
      sankochat.bypass.filter: true
+     sankochat.bypass.caps: true
+     sankocaht.bypass.replaceword: true
      sankochat.command.reload: true
      sankochat.command.resetdata: true
+     sankochat.notifications: true

@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor {
 
-	Main plugin = Main.getPlugin(Main.class);
-	Messages messages = new Messages();
-	ChatListener cl = new ChatListener();
-	WarningSystem warning = new WarningSystem();
+	Main plugin = Main.getPluginInstance();
+	Messages messages = new Messages(plugin);
+	ChatListener cl = new ChatListener(plugin);
+	WarningSystem warning = new WarningSystem(plugin);
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

@@ -25,8 +25,8 @@ import org.bukkit.scheduler.BukkitRunnable;
  **/
 public class WarningSystem {
 
-	Main plugin = Main.getPlugin(Main.class);
-	Messages messages = new Messages();
+	Main plugin = null;
+	Messages messages = null;
 	Player player;
 
 	private UUID playerID;
@@ -36,7 +36,9 @@ public class WarningSystem {
 
 	private static HashMap<UUID, Integer> warnings = new HashMap<UUID, Integer>();
 
-	public WarningSystem() {
+	public WarningSystem(Main instance) {
+		this.plugin = instance;
+		messages = new Messages(plugin);
 		punishmentCommand = plugin.getConfig().getString("punishment-command");
 		warningCap = plugin.getConfig().getInt("warning-cap");
 	}
@@ -52,6 +54,17 @@ public class WarningSystem {
 		getPlayer(playerID).sendMessage(messages.getMessage("warning-recived", true).replace("{0}", from)
 				.replace("{1}", Integer.toString(getWarningCount(playerID)))
 				.replace("{2}", Integer.toString(warningCap)));
+		String message = messages.getMessage("warned-player", true).replace("{0}", getPlayerName(playerID))
+				.replace("{1}", from).replace("{2}", Integer.toString(getWarningCount(playerID)))
+				.replace("{3}", Integer.toString(warningCap));
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			if (p.hasPermission("sankochat.notifications")) {
+				p.sendMessage(message);
+			}
+		}
+		if (plugin.getConfig().getBoolean("show-console-message")) {
+			Bukkit.getServer().getConsoleSender().sendMessage(message);
+		}
 		runPunishment(playerID);
 	}
 
@@ -72,7 +85,7 @@ public class WarningSystem {
 		String command = plugin.getConfig().getString("warning-command").replace("{0}", playerName).replace("{1}",
 				reason);
 		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-		
+
 		Bukkit.getScheduler().runTask(plugin, new Runnable() {
 			public void run() {
 				Bukkit.dispatchCommand(console, command);
