@@ -9,7 +9,13 @@
 #If you want to use cooldown, set value to true
 use-cooldown-time: true
 #Cooldown time (in seconds)
-cooldown-time: '2'
+cooldown-time: 2
+#If you wish to use command cooldown
+use-command-cooldown-time: true
+#Command cooldown time (in seconds)
+command-cooldown-time: 2
+#Use command blacklist
+use-command-blacklist: true
 #Use url, domain name and ip filter. You can togle difrend filters if you have link-filter enabled
 link-filter: true
 filter-urls: true
@@ -24,7 +30,7 @@ stop-message-repeat: true
 #If you dont want to have too similar messages
 stop-message-similaries: true
 #How similiar messages must have to block them. (0.80 -> 80%)
-similiar-message-precent: '0.80'
+similiar-message-precent: 0.80
 #If you dont want people to spam caps, set value to true
 stop-caps: true
 #If you have other plugins that may bypass sankochat, you can send null message that clears the message so 
@@ -70,12 +76,14 @@ use-own-warning-system: false
 warning-command: "warn {0} {1}"
 #Here is list for when people shoud get warned
 warn-blocked-words: true
+warn-blocked-commands: true
 warn-repeat: true
 warn-similar: true
 warn-caps: false
 warn-filter: true
 #Here reasons for warnings
 reason-blocked-words: "Swearing"
+reason-blocked-commands: "Blocked command"
 reason-repeat: "Repeat"
 reason-similar: "Repeat"
 reason-caps: "caps"
@@ -83,19 +91,36 @@ reason-filter: "URL or IP"
 
 #Messages ==============================
 cooldown-message: "&cDont send messages too fast. You have {0} seconds left"
+enable-cooldown-message: true
+command-cooldown-message: "&cDont type commands too fast. You have {0} seconds left"
+enable-command-cooldown-message: true
 message-repeat: "&cDont repeat yourself!"
+enable-message-repeat: true
 similiar-message: "&cDont send too similiar message!"
+enable-similiar-message: true
 blocked-word-message: "&cYou are not allowed to swear!"
+enable-blocked-word-message: true
+blocked-command-message: "&cYou cant run that command!"
+enable-blocked-command-message: true
 caps-message: "&cDONT USE CAPS"
+enable-caps-message: true
 filter-message: "&cYou dont have permission to send messages that contains url, ips or domain names!"
+enable-filter-message: true
 reload-message: "&aConfig file has been reloaded."
+enable-reload-message: true
 datareset-message: "&cAll warnings and checks has been reseted."
+enable-datareset-message: true
 no-permission: "&cYou dont have permission to execute that command!"
+enable-no-permission: true
 clear-time-message: "&aAll warnings and message history has been cleared!"
+enable-clear-time-message: true
 
 #Lists ==============================
 blocked-words:
    - 'exsample_word'
+
+blocked-commands:
+   - '/example'
 
 #List of allowed website urls, ips or domain names. link-filter must be true
 allowed-urls:

@@ -57,7 +57,7 @@ public class ChatListener implements Listener {
 				for (String blockedWord : blockedWords) {
 					if (e.getMessage().toLowerCase().contains(blockedWord.toLowerCase())) {
 						e.setCancelled(true);
-						player.sendMessage(messages.getMessage("blocked-word-message", true));
+						if(plugin.getConfig().getBoolean("enable-blocked-word-message")) player.sendMessage(messages.getMessage("blocked-word-message", true));
 						
 						if (plugin.getConfig().getBoolean("use-warning-system")) {
 							if (plugin.getConfig().getBoolean("warn-blocked-words")) {
@@ -73,7 +73,7 @@ public class ChatListener implements Listener {
 						if (plugin.getConfig().getBoolean("resend-null-message")) {
 							e.setMessage(null);
 						} else {
-							e.setMessage(messages.getMessage("resend-message", true).replace("{0}", e.getMessage()));
+							if(plugin.getConfig().getBoolean("enable-resend-message")) e.setMessage(messages.getMessage("resend-message", true).replace("{0}", e.getMessage()));
 						}
 					}
 				}
@@ -122,7 +122,7 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.caps")) {
 				if (testUpperCase(e.getMessage())) {
 					e.setMessage(e.getMessage().toLowerCase());
-					player.sendMessage(messages.getMessage("caps-message", true));
+					if(plugin.getConfig().getBoolean("enable-caps-message")) player.sendMessage(messages.getMessage("caps-message", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-caps")) {
@@ -141,7 +141,7 @@ public class ChatListener implements Listener {
 		
 		//Cooldown
 		if (plugin.getConfig().getBoolean("use-cooldown-time")) {
-			if (!player.hasPermission("sankochat.bypass.cooldown")) {
+			if (!player.hasPermission("sankochat.bypass.cooldown.chat")) {
 				if (cooldown.contains(playerID)) {
 						e.setCancelled(true);
 						player.sendMessage(messages.getMessage("cooldown-message", true).replace("{0}",
@@ -149,7 +149,7 @@ public class ChatListener implements Listener {
 						if (plugin.getConfig().getBoolean("resend-null-message")) {
 							e.setMessage(null);
 						} else {
-							e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
+							if(plugin.getConfig().getBoolean("enable-resend-message")) e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
 						}
 						return;
 				} else {
@@ -182,7 +182,7 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.repeat")) {
 				if (getMessage(playerID).toLowerCase().equals(e.getMessage().toLowerCase())) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("message-repeat", true));
+					if(plugin.getConfig().getBoolean("enable-message-repeat")) player.sendMessage(messages.getMessage("message-repeat", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-repeat")) {
@@ -198,7 +198,7 @@ public class ChatListener implements Listener {
 					if (plugin.getConfig().getBoolean("resend-null-message")) {
 						e.setMessage(null);
 					} else {
-						e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
+						if(plugin.getConfig().getBoolean("enable-resend-message")) e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
 					}
 					return;
 				}
@@ -211,7 +211,7 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.similar")) {
 				if (similarity(e.getMessage(), messagesMap.get(playerID)) > similarityPrecent) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("similiar-message", true));
+					if(plugin.getConfig().getBoolean("enable-similiar-message")) player.sendMessage(messages.getMessage("similiar-message", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-similar")) {
@@ -227,7 +227,7 @@ public class ChatListener implements Listener {
 					if (plugin.getConfig().getBoolean("resend-null-message")) {
 						e.setMessage(null);
 					} else {
-						e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
+						if(plugin.getConfig().getBoolean("enable-resend-message")) e.setMessage(messages.getMessage("resend-message", false).replace("{0}", e.getMessage()));
 					}
 					return;
 				}

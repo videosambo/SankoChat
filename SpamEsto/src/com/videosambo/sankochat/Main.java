@@ -15,6 +15,7 @@ public class Main extends JavaPlugin {
 	private static Main instance = null;
 	private Messages messages = null;
 	private ChatListener listener = null;
+	private CommandListener cmdListener = null;
 	private WarningSystem warnings = null;
 	
 	@Override
@@ -24,6 +25,7 @@ public class Main extends JavaPlugin {
 		getCommand("sankochat").setExecutor(new Commands());
 		messages = new Messages(instance);
 		listener = new ChatListener(instance);
+		cmdListener = new CommandListener(instance);
 		warnings = new WarningSystem(instance);
 		getServer().getPluginManager().registerEvents(listener, this);
 		autoClear();
@@ -50,11 +52,11 @@ public class Main extends JavaPlugin {
 					}
 					for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 						if (p.hasPermission("sankochat.notifications")) {
-							p.sendMessage(messages.getMessage("clear-time-message", true));
+							if(getConfig().getBoolean("enable-clear-time-message")) p.sendMessage(messages.getMessage("clear-time-message", true));
 						}
 					}
 					if (getConfig().getBoolean("show-console-message")) {
-						Bukkit.getServer().getConsoleSender().sendMessage(messages.getMessage("clear-time-message", true));
+						if(getConfig().getBoolean("enable-clear-time-message")) Bukkit.getServer().getConsoleSender().sendMessage(messages.getMessage("clear-time-message", true));
 					}
 				}
 			}.runTaskTimer(this, 0, (20 * 60 * getConfig().getInt("clear-time")));
