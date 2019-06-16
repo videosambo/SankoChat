@@ -13,8 +13,11 @@ permissions:
   sankochat.bypass.blockedwords:
     description: Allows you to skip check blocked words list
     default: op
-  sankochat.bypass.cooldown:
+  sankochat.bypass.cooldown.chat:
     description: Allows you to bypass cooldown for chat
+    default: op
+  sankochat.bypass.cooldown.command:
+    description: Allows you to bypass command cooldown
     default: op
   sankochat.bypass.repeat:
     description: Allows you to type same messaga again

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,11 +35,14 @@ public class CommandListener implements Listener {
 		blockedCommands = (ArrayList<String>) plugin.getConfig().getStringList("blocked-commands");
 	}
 
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPreprocessCommand(PlayerCommandPreprocessEvent e) {
-
+		
 		Player player = (Player) e.getPlayer();
 		UUID playerID = player.getUniqueId();
 
+		Bukkit.getServer().getConsoleSender().sendMessage("testi");
+		
 		// Command typo cooldown
 		if (plugin.getConfig().getBoolean("use-command-cooldown-time")) {
 			if (!player.hasPermission("sankochat.bypass.cooldown.command")) {

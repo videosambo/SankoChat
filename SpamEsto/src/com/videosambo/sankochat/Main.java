@@ -28,6 +28,7 @@ public class Main extends JavaPlugin {
 		cmdListener = new CommandListener(instance);
 		warnings = new WarningSystem(instance);
 		getServer().getPluginManager().registerEvents(listener, this);
+		getServer().getPluginManager().registerEvents(cmdListener, this);
 		autoClear();
 	}
 
