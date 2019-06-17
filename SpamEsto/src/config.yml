@@ -38,6 +38,11 @@ stop-caps: true
 resend-null-message: false
 #What message you want to resend. resend-null-message must be false. Use {0} as message itself
 resend-message: "{0}"
+#Log messages and commands
+log-messages: true
+log-commands: true
+#Turn this on if you wish to log deaths, kills, joins and leaves
+log-events: true
 #If you want to use prefix, set value to true and change prefix value to your own
 use-prefix: false
 prefix: "&7[&a&lMy&b&lPrefix&7] &r"
@@ -90,6 +95,7 @@ reason-caps: "caps"
 reason-filter: "URL or IP"
 
 #Messages ==============================
+#You can turn messages on or off if you are anoyed of them
 cooldown-message: "&cDont send messages too fast. You have {0} seconds left"
 enable-cooldown-message: true
 command-cooldown-message: "&cDont type commands too fast. You have {0} seconds left"
@@ -114,6 +120,12 @@ no-permission: "&cYou dont have permission to execute that command!"
 enable-no-permission: true
 clear-time-message: "&aAll warnings and message history has been cleared!"
 enable-clear-time-message: true
+
+#Log messages
+log-join-message: "%player% joined"
+log-leave-message: "%player% left"
+log-death-message: "%player% died"
+log-kill-message: "%killer% killed %player%"
 
 #Lists ==============================
 blocked-words:

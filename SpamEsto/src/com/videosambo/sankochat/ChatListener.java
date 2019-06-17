@@ -49,6 +49,10 @@ public class ChatListener implements Listener {
 
 		Player player = (Player) e.getPlayer();
 		UUID playerID = player.getUniqueId();
+
+		if (plugin.getConfig().getBoolean("log-messages"))
+			plugin.logText(e.getPlayer().getName() + " : " + e.getMessage(), ChatType.MSG);
+		
 		
 		
 		//Blocked words
@@ -95,7 +99,7 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.filter")) {
 				if (matcher.isLink(e.getMessage())) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("filter-message", true));
+					if (plugin.getConfig().getBoolean("enable-filter-message")) player.sendMessage(messages.getMessage("filter-message", true));
 					
 					if (plugin.getConfig().getBoolean("use-warning-system")) {
 						if (plugin.getConfig().getBoolean("warn-filter")) {
@@ -144,7 +148,7 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.cooldown.chat")) {
 				if (cooldown.contains(playerID)) {
 						e.setCancelled(true);
-						player.sendMessage(messages.getMessage("cooldown-message", true).replace("{0}",
+						if (plugin.getConfig().getBoolean("enable-cooldown-message")) player.sendMessage(messages.getMessage("cooldown-message", true).replace("{0}",
 								Integer.toString(cooldownMap.get(playerID))));
 						if (plugin.getConfig().getBoolean("resend-null-message")) {
 							e.setMessage(null);

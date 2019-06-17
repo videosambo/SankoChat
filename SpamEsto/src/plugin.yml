@@ -1,5 +1,5 @@
 main: com.videosambo.sankochat.Main
-version: 1.3
+version: 1.3.1
 name: SankoChat
 author: videosambo
 description: Tool for clean chat
@@ -48,7 +48,8 @@ permissions:
     default: op
     children:
      sankochat.bypass.blockedwords: true
-     sankochat.bypass.cooldown: true
+     sankochat.bypass.cooldown.chat: true
+     sankochat.bypass.cooldown.command: true
      sankochat.bypass.repeat: true
      sankochat.bypass.similar: true
      sankochat.bypass.filter: true

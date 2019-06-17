@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CommandListener implements Listener {
@@ -41,14 +42,15 @@ public class CommandListener implements Listener {
 		Player player = (Player) e.getPlayer();
 		UUID playerID = player.getUniqueId();
 
-		Bukkit.getServer().getConsoleSender().sendMessage("testi");
+		if (plugin.getConfig().getBoolean("log-commands"))
+			plugin.logText("(" + e.getPlayer().getName() + ") " + e.getMessage(), ChatType.CMD);
 		
 		// Command typo cooldown
 		if (plugin.getConfig().getBoolean("use-command-cooldown-time")) {
 			if (!player.hasPermission("sankochat.bypass.cooldown.command")) {
 				if (cooldown.contains(playerID)) {
 					e.setCancelled(true);
-					player.sendMessage(messages.getMessage("command-cooldown-message", true).replace("{0}",
+					if (plugin.getConfig().getBoolean("enable-command-cooldown-message")) player.sendMessage(messages.getMessage("command-cooldown-message", true).replace("{0}",
 							Integer.toString(cooldownMap.get(playerID))));
 					if (plugin.getConfig().getBoolean("resend-null-message")) {
 						e.setMessage(null);
@@ -112,6 +114,12 @@ public class CommandListener implements Listener {
 				}
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onConsoleCommand(ServerCommandEvent e) {
+		if (plugin.getConfig().getBoolean("log-commands"))
+			plugin.logText("(CONSOLE) " + e.getCommand(), ChatType.CMD);
 	}
 
 }
