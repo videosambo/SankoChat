@@ -22,27 +22,27 @@ public class Commands implements CommandExecutor {
 				player.sendMessage(
 						"§8-===- §cSankoChat §7Commands §8-===- §r\n" + "§7/sankochat reload §f- Reload config file§r\n"
 								+ "§7/sankochat resetdata §f- Reset warnings and checks\n"
-								+ "§8-===- §c§lV. §71.3.1 §8-===- §r");
+								+ "§8-===- §cV. §71.3.1 §8-===- §r");
 			}
 
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 				if (player.hasPermission("sankochat.command.reload")) {
 					plugin.reloadConfig();
 					if (plugin.getConfig().getBoolean("enable-reload-message")) sender.sendMessage(messages.getMessage("reload-message", true));
-					return false;
+					return true;
 				} else {
 					if (plugin.getConfig().getBoolean("enable-no-permission")) sender.sendMessage(messages.getMessage("no-permission", true));
-					return false;
+					return true;
 				}
 			} else if (args.length == 1 && args[0].equalsIgnoreCase("resetdata")) {
 				if (player.hasPermission("sankochat.command.resetdata")) {
 					cl.clearMessages();
 					warning.clearAllWarnings();
 					if (plugin.getConfig().getBoolean("enable-datareset-message")) sender.sendMessage(messages.getMessage("datareset-message", true));
-					return false;
+					return true;
 				} else {
 					if (plugin.getConfig().getBoolean("enable-no-permission")) sender.sendMessage(messages.getMessage("no-permission", true));
-					return false;
+					return true;
 				}
 			}
 		} else {
@@ -50,17 +50,17 @@ public class Commands implements CommandExecutor {
 				Bukkit.getServer().getConsoleSender().sendMessage(
 						"§8-===- §cSankoChat §7Commands §8-===- §r\n" + "§7/sankochat reload §f- Reload config file§r\n"
 								+ "§7/sankochat resetdata §f- Reset warnings and checks\n"
-								+ "§8-===- §c§lV. §71.3.1 §8-===- §r");
+								+ "§8-===- §cV. §71.3.1 §8-===- §r");
 			}
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 				plugin.reloadConfig();
 				Bukkit.getServer().getConsoleSender().sendMessage("SankoChat has been reloaded");
-				return false;
+				return true;
 			} else if (args.length == 1 && args[0].equalsIgnoreCase("resetdata")) {
 				cl.clearMessages();
 				warning.clearAllWarnings();
 				Bukkit.getServer().getConsoleSender().sendMessage("all warnings and check has been reseted");
-				return false;
+				return true;
 
 			}
 		}
