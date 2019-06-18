@@ -89,7 +89,8 @@ public class ChatListener implements Listener {
 			if (!player.hasPermission("sankochat.bypass.replaceword")) {
 				for (String s : replaceword) {
 					String[] words = s.split(":");
-					e.setMessage(e.getMessage().replaceAll(words[0], words[1]));
+					if (!player.hasPermission("sankochat.bypass.replaceword." + words[0]))
+						e.setMessage(e.getMessage().replaceAll(("(?i)"+words[0]), words[1]));
 				}
 			}
 		}

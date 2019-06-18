@@ -22,7 +22,7 @@ public class Commands implements CommandExecutor {
 				player.sendMessage(
 						"§8-===- §cSankoChat §7Commands §8-===- §r\n" + "§7/sankochat reload §f- Reload config file§r\n"
 								+ "§7/sankochat resetdata §f- Reset warnings and checks\n"
-								+ "§8-===- §cV. §71.3.1 §8-===- §r");
+								+ "§8-===- §cV. §71.3.2 §8-===- §r");
 			}
 
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
@@ -43,14 +43,14 @@ public class Commands implements CommandExecutor {
 				} else {
 					if (plugin.getConfig().getBoolean("enable-no-permission")) sender.sendMessage(messages.getMessage("no-permission", true));
 					return true;
-				}
+				} 
 			}
 		} else {
 			if (args.length == 0) {
 				Bukkit.getServer().getConsoleSender().sendMessage(
 						"§8-===- §cSankoChat §7Commands §8-===- §r\n" + "§7/sankochat reload §f- Reload config file§r\n"
 								+ "§7/sankochat resetdata §f- Reset warnings and checks\n"
-								+ "§8-===- §cV. §71.3.1 §8-===- §r");
+								+ "§8-===- §cV. §71.3.2 §8-===- §r");
 			}
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 				plugin.reloadConfig();
