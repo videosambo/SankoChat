@@ -26,6 +26,8 @@ enum ChatType {
 
 public class Main extends JavaPlugin {
 
+	public static final String VERSION = "1.3.3";
+	
 	private static Main instance = null;
 	private Messages messages = null;
 	private ChatListener listener = null;

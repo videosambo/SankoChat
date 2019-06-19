@@ -74,7 +74,7 @@ public class CommandListener implements Listener {
 							time--;
 							cooldownMap.put(playerID, time);
 						}
-					}.runTaskTimer(plugin, 0, 20);
+					}.runTaskTimerAsynchronously(plugin, 0, 20);
 				}
 			}
 		}
