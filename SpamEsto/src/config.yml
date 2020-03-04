@@ -1,0 +1,147 @@
+########################################################
+# SSSSS  AA   N  N  K K   KK      CC  H H   AA   TTTTT #
+# S     A  A  NN N  K K  K  K    C    H H  A  A    T   #
+# SSSSS AAAA  N NN  KK   K  K    C    HHH  AAAA    T   #
+#     S A  A  N  N  K K  K  K    C    H H  A  A    T   #
+# SSSSS A  A  N  N  K K   KK      CC  H H  A  A    T   #
+########################################################
+#Settings ==============================
+#If you want to use cooldown, set value to true
+use-cooldown-time: true
+#Cooldown time (in seconds)
+cooldown-time: 2
+#If you wish to use command cooldown
+use-command-cooldown-time: true
+#Command cooldown time (in seconds)
+command-cooldown-time: 2
+#Use command blacklist
+use-command-blacklist: true
+#Use url, domain name and ip filter. You can togle difrend filters if you have link-filter enabled
+link-filter: true
+filter-urls: true
+filter-ips: true
+filter-dn: true
+#If you want to use blocked-word-list, set value to true
+blocked-word-detection: true
+#Use replace words
+use-replace-word: true
+#If you dont want to have same message spawn
+stop-message-repeat: true
+#If you dont want to have too similar messages
+stop-message-similaries: true
+#How similiar messages must have to block them. (0.80 -> 80%)
+similiar-message-precent: 0.80
+#If you dont want people to spam caps, set value to true
+stop-caps: true
+#If you have other plugins that may bypass sankochat, you can send null message that clears the message so 
+# plugin that bypasses sankochat will not recive message (WARNING: MAY CAUSE ERRORS FOR OTHER PLUGINS)
+resend-null-message: false
+#What message you want to resend. resend-null-message must be false. Use {0} as message itself
+resend-message: "{0}"
+#Log messages and commands
+log-messages: true
+log-commands: true
+#Turn this on if you wish to log deaths, kills, joins and leaves
+log-events: true
+#If you want to use prefix, set value to true and change prefix value to your own
+use-prefix: false
+prefix: "&7[&a&lMy&b&lPrefix&7] &r"
+
+#Clear system ==============================
+#Use automatic clear system
+clear-message-history: true
+clear-warnings: false
+#Clear timing (in minutes)
+clear-time: 1
+
+#Warning system ==============================
+#If you dont want to use punishment system, you can togle it
+use-warning-system: false
+#How many warnings player must have before punishment
+warning-cap: 4
+#Punishment command ex. "kick {0} {1}". Dont use slash char
+#{0} stands for player and {1} stands for message
+punishment-command: "kick {0} {1}"
+#Punishment message
+#{0} stands for warning count
+#does not work with colors
+punishent-message: "You have kicked for reaching {0} warnings!"
+#Warning recived message
+#{0} is warning reason, {1} is current warning count and {2} is warning cap
+warning-recived: "&cYou have been warned for {0}. You have {1}/{2} left."
+#Message that shows for players who has notification permission
+#{0} stands for player, {1} stands for reason, {2} stands for current warning count and {3} stands for maxium warning count
+warned-player: "&ePlayer {0} has been warned for {1}. Warnings: {2}/{3}"
+#Turn this on if you want to broadcast message to console
+show-console-message: false
+#If you want to use custom warning system that is connected to ex. litebans. You can use it (This togles off SankoChat own punishmet system)
+use-own-warning-system: false
+#Command that executes when player should get warning ex. "warn {0} {1}". Dont use slash char
+#{0} stands for player and {1} stands for message, this uses punishment-message (You can use your own message if you want)
+warning-command: "warn {0} {1}"
+#Here is list for when people shoud get warned
+warn-blocked-words: true
+warn-blocked-commands: true
+warn-repeat: true
+warn-similar: true
+warn-caps: false
+warn-filter: true
+#Here reasons for warnings
+reason-blocked-words: "Swearing"
+reason-blocked-commands: "Blocked command"
+reason-repeat: "Repeat"
+reason-similar: "Repeat"
+reason-caps: "caps"
+reason-filter: "URL or IP"
+
+#Messages ==============================
+#You can turn messages on or off if you are anoyed of them
+cooldown-message: "&cDont send messages too fast. You have {0} seconds left"
+enable-cooldown-message: true
+command-cooldown-message: "&cDont type commands too fast. You have {0} seconds left"
+enable-command-cooldown-message: true
+message-repeat: "&cDont repeat yourself!"
+enable-message-repeat: true
+similiar-message: "&cDont send too similiar message!"
+enable-similiar-message: true
+blocked-word-message: "&cYou are not allowed to swear!"
+enable-blocked-word-message: true
+blocked-command-message: "&cYou cant run that command!"
+enable-blocked-command-message: true
+caps-message: "&cDONT USE CAPS"
+enable-caps-message: true
+filter-message: "&cYou dont have permission to send messages that contains url, ips or domain names!"
+enable-filter-message: true
+reload-message: "&aConfig file has been reloaded."
+enable-reload-message: true
+datareset-message: "&cAll warnings and checks has been reseted."
+enable-datareset-message: true
+no-permission: "&cYou dont have permission to execute that command!"
+enable-no-permission: true
+clear-time-message: "&aAll warnings and message history has been cleared!"
+enable-clear-time-message: true
+
+#Log messages
+log-join-message: "%player% joined"
+log-leave-message: "%player% left"
+log-death-message: "%player% died"
+log-kill-message: "%killer% killed %player%"
+
+#Lists ==============================
+blocked-words:
+   - 'exsample_word'
+
+blocked-commands:
+   - '/example'
+
+#List of allowed website urls, ips or domain names. link-filter must be true
+allowed-urls:
+   - 'https://www.spigotmc.org'
+   - 'minecraft.net'
+   - '192.168.0.100'
+   
+#List of replace list. example: - 'blockedword:something else'
+replace-word:
+   - 'example:elpmaxe'
+
+#Made by videosambo
