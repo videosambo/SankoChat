@@ -29,3 +29,4 @@ SankoChat has lots of features to work on including lots of filters.
 - [ ] Chat formating
 - [ ] Join quit message customization
 - [ ] Command aliases
+- [ ] Version support 1.8 - 1.15.x
