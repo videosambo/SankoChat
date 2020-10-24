@@ -12,6 +12,7 @@ SankoChat has lots of features to work on including lots of filters.
 ### Features under work in 2.0
 
 - [ ] Module support
+
 Coming modules:
 - [ ] AntiSpam
 - [ ] Smart Anti-Repeat (check if message is similar to previous messages or exacly same)
@@ -21,6 +22,7 @@ Coming modules:
 - [ ] Blocked word list to prevent swearing
 - [ ] Word replacement system
 - [ ] Unicode converter to prevent smart advertising
+
 
 Other features
 - [ ] Own warning and punishment system
