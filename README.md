@@ -11,6 +11,8 @@ SankoChat has lots of features to work on including lots of filters.
 
 ### Features under work in 2.0
 
+- [ ] Module support
+Coming modules:
 - [ ] AntiSpam
 - [ ] Smart Anti-Repeat (check if message is similar to previous messages or exacly same)
 - [ ] Smart Anti-CAPS (give options to correct message from HELLo to hello or just block CAPS)
@@ -19,6 +21,8 @@ SankoChat has lots of features to work on including lots of filters.
 - [ ] Blocked word list to prevent swearing
 - [ ] Word replacement system
 - [ ] Unicode converter to prevent smart advertising
+
+Other features
 - [ ] Own warning and punishment system
 - [ ] Custom messages (you can also toggle them)
 - [ ] Good selection of permissions
@@ -29,4 +33,4 @@ SankoChat has lots of features to work on including lots of filters.
 - [ ] Chat formating
 - [ ] Join quit message customization
 - [ ] Command aliases
-- [ ] Version support 1.8 - 1.15.x
+- [ ] Version support 1.8 - 1.16.x
