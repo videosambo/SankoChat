@@ -1,0 +1,6 @@
+name: SankoChat
+version: 1.0-SNAPSHOT
+main: fi.videosambo.sankochat.Main
+api-version: 1.16
+prefix: SankoChat
+authors: [videosambo]
