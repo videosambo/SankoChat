@@ -1,30 +1,10 @@
-# SankoChat
-Minecraft chat control plugin
-
-# Version 2.0 under work!
-I am rewriting code
-
 ## About
 
-SankoChat is chat control plugin where you can configure everything!
-SankoChat has lots of features to work on including lots of filters.
+This is SankoChat dev branch and this is for developing SankoChat plugin itself that handles modules and some other features.
 
-### Features under work in 2.0
+### Features under work
 
 - [ ] Module support
-
-Coming modules:
-- [ ] AntiSpam
-- [ ] Smart Anti-Repeat (check if message is similar to previous messages or exacly same)
-- [ ] Smart Anti-CAPS (give options to correct message from HELLo to hello or just block CAPS)
-- [ ] Check if messages are too short or too long
-- [ ] URL, IP, domain regex filters (also whitelist of sites)
-- [ ] Blocked word list to prevent swearing
-- [ ] Word replacement system
-- [ ] Unicode converter to prevent smart advertising
-
-
-Other features
 - [ ] Own warning and punishment system
 - [ ] Custom messages (you can also toggle them)
 - [ ] Good selection of permissions
