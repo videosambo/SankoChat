@@ -1,39 +1,37 @@
 package fi.videosambo.sankochat.module;
 
-import fi.videosambo.sankochat.Handler;
+import fi.videosambo.sankochat.Main;
 import org.bukkit.Bukkit;
 import org.pf4j.DefaultPluginManager;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 
 import java.nio.file.Paths;
-import java.sql.Wrapper;
-import java.util.Arrays;
 import java.util.List;
 
 public class ModuleHandler {
 
-    private Handler handler;
+    private Main plugin;
     private PluginManager manager;
 
     private List<ChatFilter> modules;
 
-    public ModuleHandler(Handler handler) {
-        this.handler = handler;
+    public ModuleHandler(Main plugin) {
+        this.plugin = plugin;
         //Here we create new PluginManager and load available modules from modules folder
-        manager = new DefaultPluginManager(Paths.get(handler.getPlugin().getDataFolder() + "/modules"));
+        manager = new DefaultPluginManager(Paths.get(plugin.getDataFolder() + "/modules"));
         manager.loadPlugins();
         //Before starting modules we want to check if they are enabled or not
-        for (PluginWrapper plugin : manager.getPlugins()) {
+        for (PluginWrapper pl : manager.getPlugins()) {
             //If modules section does not have a configuration for plugin, it is probably a new one so we want to add new configuration
-            if (!handler.getEnabledModules().contains("enabled-modules." + plugin.getPluginId())) {
-                handler.getEnabledModules().set("enabled-modules." + plugin.getPluginId(), true);
-                handler.saveEnabledModules();
+            if (!plugin.getEnabledModules().contains("enabled-modules." + pl.getPluginId())) {
+                plugin.getEnabledModules().set("enabled-modules." + pl.getPluginId(), true);
+                plugin.saveEnabledModules();
             }
             //If module has a configuration, we will check do we want to enable or disable the plugin
             //Module is already loaded so we only need to check if we need to disable it
-            if (!handler.getEnabledModules().getBoolean("enabled-modules." + plugin.getPluginId())) {
-                manager.unloadPlugin(plugin.getPluginId());
+            if (!plugin.getEnabledModules().getBoolean("enabled-modules." + pl.getPluginId())) {
+                manager.unloadPlugin(pl.getPluginId());
             }
         }
         //Now that we have unloaded all the modules that we dont need, we start all the modules that we need
@@ -43,10 +41,10 @@ public class ModuleHandler {
         Bukkit.getServer().getLogger().info(String.valueOf(modules.size())+" Module(s) found");
 
         for (ChatFilter module : modules) {
-            if (handler.getModuleManager() == null) {
+            if (plugin.getModuleManager() == null) {
                 System.out.println("MITÄ VITTUA");
             }
-            ((Module) module).setModuleManager(handler.getModuleManager());
+            ((Module) module).setModuleManager(plugin.getModuleManager());
             module.init();
         }
 

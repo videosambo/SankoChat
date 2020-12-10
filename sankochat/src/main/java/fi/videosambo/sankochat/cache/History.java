@@ -1,11 +1,8 @@
 package fi.videosambo.sankochat.cache;
 
-import fi.videosambo.sankochat.Handler;
 import fi.videosambo.sankochat.Message;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class History {
 

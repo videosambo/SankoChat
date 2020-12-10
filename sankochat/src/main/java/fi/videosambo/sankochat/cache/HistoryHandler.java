@@ -1,6 +1,6 @@
 package fi.videosambo.sankochat.cache;
 
-import fi.videosambo.sankochat.Handler;
+import fi.videosambo.sankochat.Main;
 import fi.videosambo.sankochat.Message;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,15 +16,15 @@ public class HistoryHandler extends BukkitRunnable {
     private ArrayList<PlayerHistory> playerHistories;
     private History messageHistory;
 
-    private Handler handler;
+    private Main plugin;
 
     private int messageCacheAge;
 
-    public HistoryHandler(Handler handler) {
-        this.handler = handler;
+    public HistoryHandler(Main plugin) {
+        this.plugin = plugin;
         playerHistories = new ArrayList<>();
         messageHistory = new History();
-        messageCacheAge = handler.getConfig().getInt("cache-clear-age");
+        messageCacheAge = plugin.getConfig().getInt("cache-clear-age");
     }
 
     public void clearCache() {

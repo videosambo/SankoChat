@@ -1,6 +1,6 @@
 package fi.videosambo.sankochat.violations;
 
-import fi.videosambo.sankochat.Handler;
+import fi.videosambo.sankochat.Main;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -10,7 +10,7 @@ public class ViolationHandler {
     private Handler handler;
     private ArrayList<Violation> violations;
 
-    public ViolationHandler(Handler handler) {
+    public ViolationHandler(Main handler) {
         this.handler = handler;
         violations = new ArrayList<>();
     }

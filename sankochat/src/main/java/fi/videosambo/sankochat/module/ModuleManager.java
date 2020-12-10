@@ -1,6 +1,6 @@
 package fi.videosambo.sankochat.module;
 
-import fi.videosambo.sankochat.Handler;
+import fi.videosambo.sankochat.Main;
 import fi.videosambo.sankochat.cache.History;
 import fi.videosambo.sankochat.cache.PlayerHistory;
 import fi.videosambo.sankochat.violations.ViolationHandler;
@@ -11,18 +11,18 @@ import java.util.UUID;
 
 public class ModuleManager {
 
-    private Handler handler;
+    private Main plugin;
 
-    public ModuleManager(Handler handler) {
-        this.handler = handler;
+    public ModuleManager(Main plugin) {
+        this.plugin = plugin;
     }
 
     public History getMessageHistory() {
-        return handler.getHistory().getMessageHistory();
+        return plugin.getHistory().getMessageHistory();
     }
 
     public PlayerHistory getPlayerMessageHistory(UUID uuid) {
-        for (PlayerHistory history : handler.getHistory().getPlayerHistories()) {
+        for (PlayerHistory history : plugin.getHistory().getPlayerHistories()) {
             if (history.getPlayerUUID().equals(uuid))
                 return history;
         }
@@ -30,44 +30,44 @@ public class ModuleManager {
     }
 
     public ArrayList<PlayerHistory> getPlayerMessageHistories() {
-        return handler.getHistory().getPlayerHistories();
+        return plugin.getHistory().getPlayerHistories();
     }
 
     public FileConfiguration getPluginConfig() {
-        return handler.getConfig();
+        return plugin.getConfig();
     }
 
     public FileConfiguration getMessages() {
-        return handler.getLang();
+        return plugin.getLang();
     }
 
     public FileConfiguration getEnabledModules() {
-        return handler.getEnabledModules();
+        return plugin.getEnabledModules();
     }
 
     public FileConfiguration getModuleConfig() {
-        return handler.getModuleConfig();
+        return plugin.getModuleConfig();
     }
 
     //I dont even know is there need for this
     public void savePluginConfig() {
-        handler.saveConfig();
+        plugin.saveConfig();
     }
 
     public void saveMessages() {
-        handler.saveMessages();
+        plugin.saveMessages();
     }
 
     public void saveEnabledModules() {
-        handler.saveEnabledModules();
+        plugin.saveEnabledModules();
     }
 
     public void saveModuleConfig() {
-        handler.saveModuleConfig();
+        plugin.saveModuleConfig();
     }
 
     public ViolationHandler getViolationHandler() {
-        return handler.getViolations();
+        return plugin.getViolations();
     }
 
 }

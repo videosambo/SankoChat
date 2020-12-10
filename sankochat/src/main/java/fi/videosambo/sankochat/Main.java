@@ -1,7 +1,10 @@
 package fi.videosambo.sankochat;
 
 import fi.videosambo.sankochat.cache.HistoryEvents;
+import fi.videosambo.sankochat.cache.HistoryHandler;
+import fi.videosambo.sankochat.module.ModuleHandler;
 import fi.videosambo.sankochat.module.ModuleManager;
+import fi.videosambo.sankochat.violations.ViolationHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,28 +14,38 @@ import java.io.IOException;
 
 public final class Main extends JavaPlugin {
 
-    private Handler handler;
     private int clearCacheInterval;
+    private Main instance;
 
     //Config files
-    private File messages = new File(this.getDataFolder()+"/messages.yml");
-    private FileConfiguration messagesConfig = YamlConfiguration.loadConfiguration(messages);
-    private File modules = new File(this.getDataFolder()+"/modules.yml");
-    private FileConfiguration modulesConfig = YamlConfiguration.loadConfiguration(modules);
-    private File moduleCfg = new File(this.getDataFolder()+"/module-config.yml");
-    private FileConfiguration moduleCfgConfig = YamlConfiguration.loadConfiguration(modules);
+    private File messagesFile = new File(this.getDataFolder()+"/messages.yml");
+    private FileConfiguration messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+    private File modulesFile = new File(this.getDataFolder()+"/modules.yml");
+    private FileConfiguration modulesConfig = YamlConfiguration.loadConfiguration(modulesFile);
+    private File moduleCfgFile = new File(this.getDataFolder()+"/module-config.yml");
+    private FileConfiguration moduleCfgConfig = YamlConfiguration.loadConfiguration(moduleCfgFile);
+
+    private ModuleManager moduleManager;
+    private ModuleHandler modules;
+    private HistoryHandler history;
+    private ViolationHandler violations;
 
     @Override
     public void onEnable() {
+        instance = this;
         initFiles();
-        this.handler = new Handler(this);
+
+        moduleManager = new ModuleManager(instance);
+        modules = new ModuleHandler(instance);
+        history = new HistoryHandler(instance);
+        violations = new ViolationHandler(instance);
         //Events
-        getServer().getPluginManager().registerEvents(new MessageEvent(handler), this);
-        getServer().getPluginManager().registerEvents(new HistoryEvents(handler), this);
+        getServer().getPluginManager().registerEvents(new MessageEvent(instance), this);
+        getServer().getPluginManager().registerEvents(new HistoryEvents(instance), this);
 
         //Runnables
         clearCacheInterval = getConfig().getInt("cache-clear-time");
-        handler.getHistory().runTaskTimer(this, 0, 120*clearCacheInterval);
+        history.runTaskTimer(this, 0, 120*clearCacheInterval);
     }
 
     private void initFiles() {
@@ -47,13 +60,13 @@ public final class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        if (!messages.exists()) {
+        if (!messagesFile.exists()) {
             this.saveResource("messages.yml",false);
         }
-        if (!modules.exists()) {
+        if (!modulesFile.exists()) {
             this.saveResource("modules.yml",false);
         }
-        if (!moduleCfg.exists()) {
+        if (!moduleCfgFile.exists()) {
             this.saveResource("module-config.yml",false);
         }
         File cfg = new File(this.getDataFolder(), "config.yml");
@@ -65,7 +78,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        handler.getModuleHandler().getPluginManager().stopPlugins();
+        getModuleHandler().getPluginManager().stopPlugins();
     }
 
     //General save method
@@ -80,15 +93,15 @@ public final class Main extends JavaPlugin {
 
     //Config file saves
     public void saveMessages() {
-        saveConfig(messagesConfig, messages);
+        saveConfig(messagesConfig, messagesFile);
     }
 
-    public void saveModules() {
-        saveConfig(modulesConfig, modules);
+    public void saveEnabledModules() {
+        saveConfig(modulesConfig, modulesFile);
     }
 
     public void saveModuleConfig() {
-        saveConfig(moduleCfgConfig, moduleCfg);
+        saveConfig(moduleCfgConfig, moduleCfgFile);
     }
 
     //Getters & Setters
@@ -97,11 +110,32 @@ public final class Main extends JavaPlugin {
         return messagesConfig;
     }
 
-    public FileConfiguration getModules() {
+    public FileConfiguration getEnabledModules() {
         return modulesConfig;
     }
 
-    public FileConfiguration getModulesConfig() {
+    public FileConfiguration getModuleConfig() {
         return moduleCfgConfig;
+    }
+
+    public Main getInstance() {
+        return instance;
+    }
+
+
+    public ModuleHandler getModuleHandler() {
+        return modules;
+    }
+
+    public HistoryHandler getHistory() {
+        return history;
+    }
+
+    public ViolationHandler getViolations() {
+        return violations;
+    }
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
     }
 }

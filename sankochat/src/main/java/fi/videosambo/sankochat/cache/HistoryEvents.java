@@ -1,6 +1,6 @@
 package fi.videosambo.sankochat.cache;
 
-import fi.videosambo.sankochat.Handler;
+import fi.videosambo.sankochat.Main;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -8,21 +8,21 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class HistoryEvents implements Listener {
 
-    private Handler handler;
+    private Main plugin;
 
-    public HistoryEvents(Handler handler) {
-        this.handler = handler;
+    public HistoryEvents(Main plugin) {
+        this.plugin = plugin;
     }
 
     //JoinEvent for adding player to history cache
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (!handler.getHistory().containsPlayerHistory(e.getPlayer().getUniqueId()))
-            handler.getHistory().addPlayerHistory(new PlayerHistory(e.getPlayer().getUniqueId()));
+        if (!plugin.getHistory().containsPlayerHistory(e.getPlayer().getUniqueId()))
+            plugin.getHistory().addPlayerHistory(new PlayerHistory(e.getPlayer().getUniqueId()));
     }
 
     public void onQuit(PlayerQuitEvent e) {
-        if (handler.getHistory().containsPlayerHistory(e.getPlayer().getUniqueId()))
-            handler.getHistory().removePlayerHisotory(e.getPlayer().getUniqueId());
+        if (plugin.getHistory().containsPlayerHistory(e.getPlayer().getUniqueId()))
+            plugin.getHistory().removePlayerHisotory(e.getPlayer().getUniqueId());
     }
 }
